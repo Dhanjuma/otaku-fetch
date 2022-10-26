@@ -3,7 +3,7 @@ import { HiOutlineBookmark, HiBookmark } from "react-icons/hi";
 import { Link } from "react-router-dom";
 import { useGlobalContext } from "../Context";
 
-const AllManga = ({ data, setShowMore }) => {
+const AllManga = ({ data }) => {
   const { markManga, mangaBookMarks } = useGlobalContext();
 
   return (
@@ -59,14 +59,7 @@ const AllManga = ({ data, setShowMore }) => {
                 </h4>
               </section>
               <Link to={`/manga/${mal_id}`}>
-                <button
-                  className="read-btn"
-                  onClick={() => {
-                    setShowMore(true);
-                  }}
-                >
-                  read more
-                </button>
+                <button className="read-btn">read more</button>
               </Link>
               <div className="bookmark" onClick={() => markManga(manga)}>
                 {alreadyExists ? <HiBookmark /> : <HiOutlineBookmark />}

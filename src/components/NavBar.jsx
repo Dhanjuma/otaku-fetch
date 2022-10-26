@@ -1,5 +1,5 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import {
   HiMenuAlt2,
 
@@ -10,8 +10,9 @@ import data from "../data";
 import { useGlobalContext } from "../Context";
 
 const NavBar = () => {
-  const { showSideBar, toggleSideBar, activePage, togglePage } =
-    useGlobalContext();
+  const { showSideBar, toggleSideBar } = useGlobalContext();
+
+  // const activeStyle = { color: "#000000", background: "#ffffff" };
   return (
     <nav className="navigation">
       <h2>OTAKU Fetch</h2>
@@ -19,15 +20,19 @@ const NavBar = () => {
         {data.map((item, index) => {
           const { path, icon, text } = item;
           return (
-            <li
-              key={index}
-              onClick={(e) => togglePage(e)}
-              className={` "links" ${text === activePage && "active"}`}
-            >
-              <Link to={path} className="links">
+            <li key={index}>
+              <NavLink
+                to={path}
+                className="links"
+                style={({ isActive }) => ({
+                  color: isActive && "#000000",
+                  background: isActive && "#ffffff",
+                })}
+                end
+              >
                 <p>{icon}</p>
                 <p>{text}</p>
-              </Link>
+              </NavLink>
             </li>
           );
         })}

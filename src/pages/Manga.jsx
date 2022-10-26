@@ -13,7 +13,6 @@ const Manga = () => {
   const [term, setTerm] = React.useState("");
   const [page, setPage] = React.useState(1);
   const [data, setData] = React.useState();
-  const [showMore, setShowMore] = React.useState(false);
   // const [singleManga, setSingleManga] = React.useState([]);
   const [mangaUrl, setMangaUrl] = React.useState(
     `https://api.jikan.moe/v4/top/manga?page=${page}`
@@ -63,8 +62,6 @@ const Manga = () => {
     }
   };
 
-  console.log(showMore);
-
   // const setOne = () => {
   //   setShowMore(true);
   //   // setSingleManga(manga);
@@ -74,21 +71,21 @@ const Manga = () => {
     <main>
       <section className="header">
         <h1>MANGA</h1>
-        {!showMore && (
-          <form className="input" onSubmit={findManga}>
-            <input
-              type="search"
-              value={term}
-              onChange={(e) => {
-                setTerm(e.target.value);
-              }}
-            />
-            <button type="submit" className="btn">
-              Find
-            </button>
-          </form>
-        )}
-        {isSearching && !showMore && (
+
+        <form className="input" onSubmit={findManga}>
+          <input
+            type="search"
+            value={term}
+            onChange={(e) => {
+              setTerm(e.target.value);
+            }}
+          />
+          <button type="submit" className="btn">
+            Find
+          </button>
+        </form>
+
+        {isSearching && (
           <h3
             className="btn"
             onClick={() => {
@@ -102,16 +99,15 @@ const Manga = () => {
           </h3>
         )}
       </section>
-      {!showMore && (
+      {data && (
         <ButtonsContainer page={page} lastPage={lastPage} setPage={setPage} />
       )}
+
       {loading && <Loading />}
 
       {!data && !loading && <div>NOT FOUND</div>}
 
-      {data && !loading && !showMore && (
-        <AllManga data={data.data} setShowMore={setShowMore} />
-      )}
+      {data && !loading && <AllManga data={data.data} />}
       {/* {data && !loading && showMore && (
         <SingleManga
           // singleManga={singleManga}

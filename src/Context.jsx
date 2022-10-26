@@ -29,7 +29,7 @@ const getLocalManga = () => {
 // };
 
 export const AppContext = ({ children }) => {
-  const [activePage, setActivePage] = React.useState("");
+  // const [activePage, setActivePage] = React.useState("");
   const [showSideBar, setShowSideBar] = React.useState(false);
   const [mangaBookMarks, setMangaBookMarks] = React.useState(getLocalManga());
   // const [animeBookMarks, setAnimeBookMarks] = React.useState(getLocalAnime());
@@ -39,9 +39,9 @@ export const AppContext = ({ children }) => {
     setBookMarkCount(mangaBookMarks.length);
   }, [mangaBookMarks]);
 
-  React.useEffect(() => {
-    setActivePage("BookMarks");
-  }, []);
+  // React.useEffect(() => {
+  //   setActivePage("BookMarks");
+  // }, []);
   //   React.useEffect(() => {
   // setBookMarkCount(mangaBookMarks.length + animeBookMarks.length)
   //   }, [mangaBookMarks, animeBookMarks]);
@@ -66,9 +66,9 @@ export const AppContext = ({ children }) => {
   const toggleSideBar = () => {
     setShowSideBar(!showSideBar);
   };
-  const togglePage = (e) => {
-    setActivePage(e.target.textContent);
-  };
+  // const togglePage = (e) => {
+  //   setActivePage(e.target.textContent);
+  // };
 
   const markManga = (manga) => {
     let alreadyExists = mangaBookMarks.some((one) => {
@@ -92,8 +92,8 @@ export const AppContext = ({ children }) => {
       value={{
         showSideBar,
         toggleSideBar,
-        activePage,
-        togglePage,
+        // activePage,
+        // togglePage,
         markManga,
         mangaBookMarks,
         bookMarkCount,
