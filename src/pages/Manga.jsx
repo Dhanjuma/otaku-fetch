@@ -35,6 +35,8 @@ const Manga = () => {
       console.log(error);
       setLoading(false);
     }
+
+    return()=>{}
   }, [mangaUrl]);
 
   React.useEffect(() => {

@@ -5,30 +5,32 @@ const RecommendedManga = ({ recomData }) => {
   // const [picked, setPicked] = React.useState();
   // const [loading, setLoading] = React.useState(false);
 
-  console.log(recomData);
+  // console.log(recomData);
   if (recomData) {
     return (
       <main className="recommended-manga-container">
-        {recomData.map((manga) => {
-          const { mal_id, title, images } = manga.entry;
+        {recomData
+          .filter((item, index) => index < 10)
+          .map((manga) => {
+            const { mal_id, title, images } = manga.entry;
 
-          return (
-            <article key={mal_id} className="recommended-manga">
-              <img
-                style={{ width: "60%" }}
-                src={images.jpg.large_image_url}
-                alt=""
-              />
-              <section>
-                <h4>{title}</h4>
-              </section>
+            return (
+              <article key={mal_id} className="recommended-manga">
+                <img
+                  style={{ width: "60%" }}
+                  src={images.jpg.large_image_url}
+                  alt=""
+                />
+                <section>
+                  <h4>{title}</h4>
+                </section>
 
-              <Link to={`/manga/${mal_id}`}>
-                <button className="more-btn">more</button>
-              </Link>
-            </article>
-          );
-        })}
+                <Link to={`/manga/${mal_id}`}>
+                  <button className="more-btn">more</button>
+                </Link>
+              </article>
+            );
+          })}
       </main>
     );
   }

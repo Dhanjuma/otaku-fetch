@@ -10,7 +10,7 @@ import data from "../data";
 import { useGlobalContext } from "../Context";
 
 const NavBar = () => {
-  const { showSideBar, toggleSideBar } = useGlobalContext();
+  const { showSideBar, toggleSideBar, bookMarkCount } = useGlobalContext();
 
   // const activeStyle = { color: "#000000", background: "#ffffff" };
   return (
@@ -32,6 +32,9 @@ const NavBar = () => {
               >
                 <p>{icon}</p>
                 <p>{text}</p>
+                {text === "BookMarks" && (
+                  <p className="nav-count">{bookMarkCount}</p>
+                )}
               </NavLink>
             </li>
           );

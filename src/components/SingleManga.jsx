@@ -14,37 +14,6 @@ const SingleManga = () => {
   const [singleManga, setSingleManga] = React.useState(false);
   const [recomData, setRecomData] = React.useState();
 
-  const ten = (array, num) => {
-    let arr = [];
-    for (let i = 0; i < num; i++) {
-      const random = Math.floor(Math.random() * array.length);
-      if (
-        arr.some((one) => {
-          return one.entry.mal_id === array[random].entry.mal_id;
-        })
-      ) {
-        num += 1;
-      } else {
-        arr.push(array[random]);
-      }
-    }
-    return arr;
-  };
-
-  const fetchRecommended = React.useCallback(async () => {
-    const res = await fetch(
-      `https://api.jikan.moe/v4/manga/${id}/recommendations`
-    );
-    const data = await res.json();
-    const all = data.data;
-    const gotten = ten(all, 10);
-    gotten && setRecomData(gotten);
-  }, [id]);
-
-  React.useEffect(() => {
-    fetchRecommended();
-  }, [fetchRecommended]);
-
   const url = `https://api.jikan.moe/v4/manga/${id}`;
 
   const fetchSingleManga = React.useCallback(async () => {
@@ -53,17 +22,32 @@ const SingleManga = () => {
       const res = await fetch(url);
       const data = await res.json();
       setSingleManga(data.data);
-      console.log(data.data, url, id);
+      // console.log(data.data, url, id);
       setLoading(false);
     } catch (error) {
       console.log(error);
       setLoading(false);
     }
-  }, [url, id]);
+  }, [url]);
 
   React.useEffect(() => {
     fetchSingleManga();
+    return () => {};
   }, [fetchSingleManga]);
+
+  const fetchRecommended = React.useCallback(async () => {
+    const res = await fetch(
+      `https://api.jikan.moe/v4/manga/${id}/recommendations?limit=10`
+    );
+    const data = await res.json();
+    const all = data.data;
+    setRecomData(all);
+  }, [id]);
+
+  React.useEffect(() => {
+    singleManga && fetchRecommended();
+    return () => {};
+  }, [singleManga, fetchRecommended]);
 
   const {
     mal_id,
@@ -90,7 +74,7 @@ const SingleManga = () => {
 
   if (loading) {
     return <Loading />;
-  } else {
+  } else if (singleManga) {
     return (
       <main className="single-manga-container">
         <Link to={`/manga`}>
