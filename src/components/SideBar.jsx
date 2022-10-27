@@ -1,17 +1,21 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
 import data from "../data";
+import { FaTimes } from "react-icons/fa";
 
 import { useGlobalContext } from "../Context";
 // import { FaTimes } from "react-icons/fa";
 
 const SideBar = () => {
-  const { showSideBar, bookMarkCount } = useGlobalContext();
+  const { showSideBar, toggleSideBar, bookMarkCount } = useGlobalContext();
   return (
     <main
       className={`${showSideBar ? "sidebar-wrapper show" : "sidebar-wrapper"}`}
     >
       <ul className="sidebar">
+        <button className="toggle" onClick={toggleSideBar}>
+          <FaTimes />
+        </button>
         {data.map((item, index) => {
           const { path, icon, text } = item;
           return (

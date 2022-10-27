@@ -5,12 +5,12 @@ import {
 
   // HiTrash,
 } from "react-icons/hi";
-import { FaTimes } from "react-icons/fa";
+// import { FaTimes } from "react-icons/fa";
 import data from "../data";
 import { useGlobalContext } from "../Context";
 
 const NavBar = () => {
-  const { showSideBar, toggleSideBar, bookMarkCount } = useGlobalContext();
+  const { toggleSideBar, bookMarkCount } = useGlobalContext();
 
   // const activeStyle = { color: "#000000", background: "#ffffff" };
   return (
@@ -56,7 +56,7 @@ const NavBar = () => {
         </li> */}
       </ul>
       <button className="toggle" onClick={toggleSideBar}>
-        {showSideBar ? <FaTimes /> : <HiMenuAlt2 />}
+        <HiMenuAlt2 />
       </button>
     </nav>
   );
