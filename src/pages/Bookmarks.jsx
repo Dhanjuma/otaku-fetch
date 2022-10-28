@@ -9,7 +9,7 @@ const Bookmarks = () => {
   console.log(mangaBookMarks, animeBookMarks);
   return (
     <>
-      {animeBookMarks && (
+      {animeBookMarks.length !== 0 && (
         <article>
           <h2 className="heading">ANIME</h2>
           <section className="bookmark-container">
@@ -74,7 +74,7 @@ const Bookmarks = () => {
           </section>
         </article>
       )}
-      {mangaBookMarks && (
+      {mangaBookMarks.length !== 0 && (
         <article>
           <h2 className="heading">MANGA</h2>
           <section className="bookmark-container">
