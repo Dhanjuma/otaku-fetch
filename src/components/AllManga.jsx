@@ -2,10 +2,13 @@ import React from "react";
 import { HiOutlineBookmark, HiBookmark } from "react-icons/hi";
 import { Link } from "react-router-dom";
 import { useGlobalContext } from "../Context";
+// import { useFetch } from "../useFetch";
 
 const AllManga = ({ data }) => {
   const { markManga, mangaBookMarks } = useGlobalContext();
 
+  // const { detail } = useFetch("https://api.jikan.moe/v4/genres/manga");
+  // console.log(detail);
   return (
     <article>
       <h1 className="title">TOP MANGA</h1>

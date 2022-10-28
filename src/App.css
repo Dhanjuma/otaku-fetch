@@ -197,6 +197,27 @@ a {
   display: inline-block;
   margin: 1em;
 }
+.genre-container {
+  margin: 2em;
+  background: #ccc4c4;
+  border-radius: 2em;
+  padding: 0.5em;
+}
+.genre-btn {
+  /* text-transform: uppercase; */
+  /* letter-spacing: 0.3rem; */
+  color: #000000;
+  /* border: 2px solid #000; */
+  padding: 0.23rem 5px;
+  /* display: inline-block; */
+  transition: all 0.3s linear;
+  cursor: pointer;
+  /* font-size: 0.8rem; */
+  background: #858484;
+  border-radius: 1.5rem;
+  /* display: inline-block; */
+  margin: 3px;
+}
 
 .page-btn-container {
   /* background: #5a5656; */

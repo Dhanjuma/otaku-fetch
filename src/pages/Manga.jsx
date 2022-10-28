@@ -13,14 +13,23 @@ const Manga = () => {
   const [term, setTerm] = React.useState("");
   const [page, setPage] = React.useState(1);
   const [data, setData] = React.useState();
+  const [genre, setGenre] = React.useState();
+  const [isShowingGenres, setIsShowingGenres] = React.useState(false);
+  const [isShowingSpecificGenre, setIsShowingSpecificGenre] =
+    React.useState(false);
+  const [specificGenre, setSpecificGenre] = React.useState("");
+
   // const [singleManga, setSingleManga] = React.useState([]);
   const [mangaUrl, setMangaUrl] = React.useState(
     `https://api.jikan.moe/v4/top/manga?page=${page}`
   );
 
-  // console.log(singleManga);
-  // let a = parseInt(page) === 1;
-  // console.log(page, mangaUrl);
+  React.useEffect(() => {
+    fetch(`https://api.jikan.moe/v4/genres/manga`)
+      .then((response) => response.json())
+      .then((myJson) => setGenre(myJson.data));
+  }, []);
+  console.log(mangaUrl, lastPage, data);
 
   const fetchManga = React.useCallback(async () => {
     try {
@@ -35,21 +44,31 @@ const Manga = () => {
       console.log(error);
       setLoading(false);
     }
-
-    return()=>{}
   }, [mangaUrl]);
 
   React.useEffect(() => {
     fetchManga();
+    return () => {};
   }, [fetchManga]);
 
   React.useEffect(() => {
-    if (!isSearching) {
+    if (!isSearching && !isShowingSpecificGenre) {
       setMangaUrl(`https://api.jikan.moe/v4/top/manga?page=${page}`);
-    } else if (isSearching && isSubmitted) {
+    } else if (isSearching && isSubmitted && !isShowingSpecificGenre) {
       setMangaUrl(`https://api.jikan.moe/v4/manga?q=${term}&page=${page}`);
+    } else if (isShowingSpecificGenre) {
+      setMangaUrl(
+        `https://api.jikan.moe/v4/manga?genres=${specificGenre}&page=${page}`
+      );
     }
-  }, [page, isSearching, term, isSubmitted]);
+  }, [
+    page,
+    isSearching,
+    term,
+    isSubmitted,
+    specificGenre,
+    isShowingSpecificGenre,
+  ]);
 
   const findManga = (e) => {
     e.preventDefault();
@@ -86,8 +105,15 @@ const Manga = () => {
             Find
           </button>
         </form>
-
-        {isSearching && (
+        <button
+          onClick={() => {
+            setIsShowingGenres((p) => !p);
+          }}
+          className="btn"
+        >
+          {isShowingGenres ? "hide" : "show"} categories
+        </button>
+        {(isSearching || isShowingSpecificGenre) && (
           <h3
             className="btn"
             onClick={() => {
@@ -95,12 +121,44 @@ const Manga = () => {
               setIsSearching(false);
               setTerm("");
               setPage(1);
+              setIsShowingSpecificGenre(false);
             }}
           >
             back to home
           </h3>
         )}
       </section>
+
+      {isShowingGenres && (
+        <div className="genre-container">
+          {genre &&
+            genre.map((a) => {
+              const { mal_id, name } = a;
+              return (
+                <button
+                  className="genre-btn"
+                  key={mal_id}
+                  onClick={() => {
+                    setPage(1);
+                    setMangaUrl(
+                      `https://api.jikan.moe/v4/manga?genres=${mal_id}&page=1`
+                    );
+                    setIsShowingSpecificGenre(true);
+                    setSpecificGenre(mal_id);
+                  }}
+                  style={{
+                    background: mal_id === specificGenre && "#000",
+                    color: mal_id === specificGenre && "#fff",
+                    border: mal_id === specificGenre && "2px solid #fff",
+                  }}
+                >
+                  {name}
+                </button>
+              );
+            })}
+        </div>
+      )}
+
       {data && (
         <ButtonsContainer page={page} lastPage={lastPage} setPage={setPage} />
       )}
