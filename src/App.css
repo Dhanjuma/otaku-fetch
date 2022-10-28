@@ -49,8 +49,8 @@ a {
 
 .nav-count {
   border-radius: 3em;
-  width: 1.5em;
-  height: 1.5em;
+  /* width: 1.5em; */
+  /* height: 1.5em; */
   padding: 1px 0 6px 7px;
   font-weight: 400;
   color: #ffffff;
@@ -151,10 +151,10 @@ a {
 } */
 .sidebar .count {
   border-radius: 50%;
-  width: 1.2em;
-  height: 1.2em;
+  /* width: 1.2em; */
+  /* height: 1.2em; */
   /* padding: 1px auto; */
-  padding: 1px 0 1px 8px;
+  padding: 3px 8px;
   /* font-weight: 400; */
   color: #ffffff;
   margin-left: 0.5em;
