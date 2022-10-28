@@ -17,7 +17,8 @@ const Manga = () => {
   const [isShowingGenres, setIsShowingGenres] = React.useState(false);
   const [isShowingSpecificGenre, setIsShowingSpecificGenre] =
     React.useState(false);
-  const [specificGenre, setSpecificGenre] = React.useState("");
+  const [specificGenre, setSpecificGenre] = React.useState();
+  const [specificGenreName, setSpecificGenreName] = React.useState("");
 
   // const [singleManga, setSingleManga] = React.useState([]);
   const [mangaUrl, setMangaUrl] = React.useState(
@@ -83,6 +84,15 @@ const Manga = () => {
     }
   };
 
+  const handleGenre = (mal_id, name) => {
+    setPage(1);
+    setMangaUrl(`https://api.jikan.moe/v4/manga?genres=${mal_id}&page=1`);
+    setIsShowingSpecificGenre(true);
+    setSpecificGenre(mal_id);
+    setIsShowingGenres((p) => !p);
+    setSpecificGenreName(name);
+  };
+
   // const setOne = () => {
   //   setShowMore(true);
   //   // setSingleManga(manga);
@@ -122,6 +132,7 @@ const Manga = () => {
               setTerm("");
               setPage(1);
               setIsShowingSpecificGenre(false);
+              setSpecificGenreName("");
             }}
           >
             back to home
@@ -138,14 +149,7 @@ const Manga = () => {
                 <button
                   className="genre-btn"
                   key={mal_id}
-                  onClick={() => {
-                    setPage(1);
-                    setMangaUrl(
-                      `https://api.jikan.moe/v4/manga?genres=${mal_id}&page=1`
-                    );
-                    setIsShowingSpecificGenre(true);
-                    setSpecificGenre(mal_id);
-                  }}
+                  onClick={() => handleGenre(mal_id, name)}
                   style={{
                     background: mal_id === specificGenre && "#000",
                     color: mal_id === specificGenre && "#fff",
@@ -167,7 +171,9 @@ const Manga = () => {
 
       {!data && !loading && <div>NOT FOUND</div>}
 
-      {data && !loading && <AllManga data={data.data} />}
+      {data && !loading && (
+        <AllManga data={data.data} genreName={specificGenreName} />
+      )}
       {/* {data && !loading && showMore && (
         <SingleManga
           // singleManga={singleManga}

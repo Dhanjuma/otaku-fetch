@@ -19,56 +19,40 @@ const getLocalManga = () => {
     return [];
   }
 };
-// const getLocalAnime = () => {
-//   let animeBookmarks = localStorage.getItem("animeBookmark");
-//   if (animeBookmarks) {
-//     return (animeBookmarks = JSON.parse(localStorage.getItem("animeBookmark")));
-//   } else {
-//     return [];
-//   }
-// };
+const getLocalAnime = () => {
+  let animeBookmarks = localStorage.getItem("animeBookmark");
+  if (animeBookmarks) {
+    return (animeBookmarks = JSON.parse(localStorage.getItem("animeBookmark")));
+  } else {
+    return [];
+  }
+};
 
 export const AppContext = ({ children }) => {
   // const [activePage, setActivePage] = React.useState("");
   const [showSideBar, setShowSideBar] = React.useState(false);
   const [mangaBookMarks, setMangaBookMarks] = React.useState(getLocalManga());
-  // const [animeBookMarks, setAnimeBookMarks] = React.useState(getLocalAnime());
+  const [animeBookMarks, setAnimeBookMarks] = React.useState(getLocalAnime());
+
   const [bookMarkCount, setBookMarkCount] = React.useState(0);
 
   React.useEffect(() => {
-    setBookMarkCount(mangaBookMarks.length);
-  }, [mangaBookMarks]);
-
-  // React.useEffect(() => {
-  //   setActivePage("BookMarks");
-  // }, []);
-  //   React.useEffect(() => {
-  // setBookMarkCount(mangaBookMarks.length + animeBookMarks.length)
-  //   }, [mangaBookMarks, animeBookMarks]);
-
-  // React.useEffect(() => {
-  //   localStorage.setItem("page", JSON.stringify(activePage));
-  // }, [activePage]);
+    setBookMarkCount(mangaBookMarks.length + animeBookMarks.length);
+  }, [mangaBookMarks, animeBookMarks]);
 
   React.useEffect(() => {
     localStorage.setItem("mangaBookmark", JSON.stringify(mangaBookMarks));
   }, [mangaBookMarks]);
 
-  // React.useEffect(() => {
-  //   localStorage.setItem("animeBookmark", JSON.stringify(animeBookMarks));
-  // }, [animeBookMarks]);
+  React.useEffect(() => {
+    localStorage.setItem("animeBookmark", JSON.stringify(animeBookMarks));
+  }, [animeBookMarks]);
 
-  // React.useEffect(() => {
-  // setActivePage("Bookmarks");
-  // }, []);
-  console.log(bookMarkCount);
+  // console.log(bookMarkCount);
 
   const toggleSideBar = () => {
     setShowSideBar(!showSideBar);
   };
-  // const togglePage = (e) => {
-  //   setActivePage(e.target.textContent);
-  // };
 
   const markManga = (manga) => {
     let alreadyExists = mangaBookMarks.some((one) => {
@@ -87,6 +71,23 @@ export const AppContext = ({ children }) => {
     }
   };
 
+  const markAnime = (anime) => {
+    let alreadyExists = animeBookMarks.some((one) => {
+      return one.mal_id === anime.mal_id;
+    });
+    if (alreadyExists) {
+      setAnimeBookMarks((prev) => {
+        return prev.filter((p) => {
+          return p.mal_id !== anime.mal_id;
+        });
+      });
+    } else {
+      setAnimeBookMarks((prev) => {
+        return [...prev, anime];
+      });
+    }
+  };
+
   return (
     <Context.Provider
       value={{
@@ -95,7 +96,9 @@ export const AppContext = ({ children }) => {
         // activePage,
         // togglePage,
         markManga,
+        markAnime,
         mangaBookMarks,
+        animeBookMarks,
         bookMarkCount,
       }}
     >

@@ -4,27 +4,27 @@ import { Link } from "react-router-dom";
 import { useGlobalContext } from "../Context";
 // import { useFetch } from "../useFetch";
 
-const AllManga = ({ data, genreName }) => {
-  const { markManga, mangaBookMarks } = useGlobalContext();
+const AllAnime = ({ data, genreName }) => {
+  const { markAnime, animeBookMarks } = useGlobalContext();
 
   // const { detail } = useFetch("https://api.jikan.moe/v4/genres/manga");
   // console.log(detail);
   return (
     <article>
-      <h1 className="title">{genreName ? genreName : "TOP MANGA"}</h1>
+      <h1 className="title">{genreName ? genreName : "TOP ANIME"}</h1>
       <main className="manga-container">
-        {data.map((manga) => {
+        {data.map((anime) => {
           const {
             mal_id,
             title,
             title_japanese,
-            authors,
+            episodes,
             rank,
             images,
             status,
             genres,
-          } = manga;
-          let alreadyExists = mangaBookMarks.some((one) => {
+          } = anime;
+          let alreadyExists = animeBookMarks.some((one) => {
             return one.mal_id === mal_id;
           });
 
@@ -42,9 +42,9 @@ const AllManga = ({ data, genreName }) => {
                 <h4>
                   JAPANESE : <span>{title_japanese}</span>
                 </h4>
-                {authors.length >= 1 && (
+                {episodes && (
                   <h4>
-                    AUTHOR :<span>{authors[0].name}</span>
+                    EPISODES : <span>{episodes}</span>
                   </h4>
                 )}
                 <h4>
@@ -61,10 +61,10 @@ const AllManga = ({ data, genreName }) => {
                   })}
                 </h4>
               </section>
-              <Link to={`/manga/${mal_id}`}>
+              <Link to={`/anime/${mal_id}`}>
                 <button className="read-btn">read more</button>
               </Link>
-              <div className="bookmark" onClick={() => markManga(manga)}>
+              <div className="bookmark" onClick={() => markAnime(anime)}>
                 {alreadyExists ? <HiBookmark /> : <HiOutlineBookmark />}
               </div>
             </article>
@@ -75,4 +75,4 @@ const AllManga = ({ data, genreName }) => {
   );
 };
 
-export default AllManga;
+export default AllAnime;

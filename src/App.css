@@ -448,6 +448,92 @@ body {
   }
 } */
 
+.bookmark-container {
+  display: flex;
+  overflow: auto;
+  /* flex-wrap: wrap; */
+  gap: 2em;
+  /* width: 100%; */
+  margin: 1em;
+  padding: 1em;
+}
+.heading {
+  margin-left: 1em;
+}
+.manga-bookmark {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5em;
+  background: #ccc4c4;
+  border-radius: 0.4em;
+  padding: 0.5em;
+  word-wrap: break-word;
+  width: 300px;
+  height: auto;
+}
+@media screen and (max-width: 500px) {
+  .manga-bookmark {
+    width: 70vw;
+  }
+}
+/* 
+@media screen and (max-width: 1500px) {
+  .manga-bookmark {
+    width: 24vw;
+  }
+}
+@media screen and (max-width: 1400px) {
+  .manga-bookmark {
+    width: 28vw;
+  }
+}
+@media screen and (max-width: 1300px) {
+  .manga-bookmark {
+    width: 32vw;
+  }
+}
+@media screen and (max-width: 1200px) {
+  .manga-bookmark {
+    width: 36vw;
+  }
+}
+@media screen and (max-width: 1100px) {
+  .manga-bookmark {
+    width: 40vw;
+  }
+}
+@media screen and (max-width: 1000px) {
+  .manga-bookmark {
+    width: 44vw;
+  }
+}
+@media screen and (max-width: 900px) {
+  .manga-bookmark {
+    width: 48vw;
+  }
+}
+@media screen and (max-width: 800px) {
+  .manga-bookmark {
+    width: 52vw;
+  }
+}
+@media screen and (max-width: 700px) {
+  .manga-bookmark {
+    width: 56vw;
+  }
+}
+@media screen and (max-width: 600px) {
+  .manga-bookmark {
+    width: 60vw;
+  }
+}
+@media screen and (max-width: 500px) {
+  .manga-bookmark {
+    width: 64vw;
+  }
+} */
+
 .manga-container {
   display: grid;
   grid-template-columns: repeat(7, 1fr);

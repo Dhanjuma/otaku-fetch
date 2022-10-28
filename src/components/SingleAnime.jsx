@@ -1,27 +1,27 @@
 import React from "react";
 import { HiOutlineBookmark, HiBookmark } from "react-icons/hi";
 import { useGlobalContext } from "../Context";
-import RecommendedManga from "./RecommendedManga";
+import RecommendedAnime from "./RecommendedAnime";
 import { useParams, Link } from "react-router-dom";
 import Loading from "./Loading";
 
 // {
 // setShowMore;
 // }
-const SingleManga = () => {
+const SingleAnime = () => {
   const { id } = useParams();
   const [loading, setLoading] = React.useState(false);
-  const [singleManga, setSingleManga] = React.useState(false);
+  const [singleAnime, setSingleAnime] = React.useState(false);
   const [recomData, setRecomData] = React.useState();
 
-  const url = `https://api.jikan.moe/v4/manga/${id}`;
+  const url = `https://api.jikan.moe/v4/anime/${id}`;
 
-  const fetchSingleManga = React.useCallback(async () => {
+  const fetchSingleAnime = React.useCallback(async () => {
     try {
       setLoading(true);
       const res = await fetch(url);
       const data = await res.json();
-      setSingleManga(data.data);
+      setSingleAnime(data.data);
       // console.log(data.data, url, id);
       setLoading(false);
     } catch (error) {
@@ -31,13 +31,13 @@ const SingleManga = () => {
   }, [url]);
 
   React.useEffect(() => {
-    fetchSingleManga();
+    fetchSingleAnime();
     return () => {};
-  }, [fetchSingleManga]);
+  }, [fetchSingleAnime]);
 
   const fetchRecommended = React.useCallback(async () => {
     const res = await fetch(
-      `https://api.jikan.moe/v4/manga/${id}/recommendations?limit=10`
+      `https://api.jikan.moe/v4/anime/${id}/recommendations?limit=10`
     );
     const data = await res.json();
     const all = data.data;
@@ -45,53 +45,57 @@ const SingleManga = () => {
   }, [id]);
 
   React.useEffect(() => {
-    singleManga && fetchRecommended();
+    singleAnime && fetchRecommended();
     return () => {};
-  }, [singleManga, fetchRecommended]);
+  }, [singleAnime, fetchRecommended]);
 
   const {
     mal_id,
     title,
     title_japanese,
-    authors,
+    producers,
     rank,
     images,
     status,
     score,
     popularity,
     type,
-    published,
+    aired,
     synopsis,
     genres,
-    volumes,
-    chapters,
-  } = singleManga;
+    source,
+    episodes,
+    duration,
+    season,
+    year,
+    studios,
+  } = singleAnime;
 
-  const { markManga, mangaBookMarks } = useGlobalContext();
-  let alreadyExists = mangaBookMarks.some((one) => {
+  const { markAnime, animeBookMarks } = useGlobalContext();
+  let alreadyExists = animeBookMarks.some((one) => {
     return one.mal_id === mal_id;
   });
 
   if (loading) {
     return <Loading />;
-  } else if (singleManga) {
+  } else if (singleAnime) {
     return (
       <main className="single-manga-container">
-        <Link to={`/manga`}>
+        <Link to={`/anime`}>
           <button
             className="read-btn"
             // onClick={() => {
             //   setShowMore(false);
             // }}
           >
-            back to manga home
+            back to anime home
           </button>
         </Link>
 
-        {singleManga && (
+        {singleAnime && (
           <article key={mal_id} className="single-manga">
             <img
-              // style={{ maxWidth: "50%" }}
+              style={{ maxWidth: "50%" }}
               src={images.jpg.large_image_url}
               alt=""
             />
@@ -102,11 +106,7 @@ const SingleManga = () => {
               <h4>
                 JAPANESE : <span>{title_japanese}</span>
               </h4>
-              {authors.length >= 1 && (
-                <h4>
-                  AUTHOR :<span>{authors[0].name}</span>
-                </h4>
-              )}
+
               <h4>
                 RANK : <span>{rank}</span>
               </h4>
@@ -123,16 +123,31 @@ const SingleManga = () => {
                 STATUS : <span>{status}</span>
               </h4>
               <h4>
-                PUBLISHED : <span> {published.string}</span>
+                AIRED : <span> {aired.string}</span>
               </h4>
-              {volumes && (
+              {source && (
                 <h4>
-                  VOLUMES : <span> {volumes}</span>
+                  SOURCE : <span> {source}</span>
                 </h4>
               )}
-              {chapters && (
+              {episodes && (
                 <h4>
-                  CHAPTERS : <span>{chapters}</span>
+                  EPISODES : <span>{episodes}</span>
+                </h4>
+              )}
+              {duration && (
+                <h4>
+                  DURATION : <span>{duration}</span>
+                </h4>
+              )}
+              {season && (
+                <h4>
+                  SEASON : <span>{season}</span>
+                </h4>
+              )}
+              {year && (
+                <h4>
+                  YEAR : <span>{year}</span>
                 </h4>
               )}
               <h4>
@@ -141,11 +156,21 @@ const SingleManga = () => {
                   return <span key={index}> {a.name},</span>;
                 })}
               </h4>
+              {producers.length >= 1 && (
+                <h4>
+                  PRODUCERS :<span>{producers[0].name}</span>
+                </h4>
+              )}
+              {studios.length >= 1 && (
+                <h4>
+                  STUDIOS :<span>{studios[0].name}</span>
+                </h4>
+              )}
               <h4>
                 SYNOPSIS :<span> {synopsis}</span>
               </h4>
             </section>
-            <div className="bookmark" onClick={() => markManga(singleManga)}>
+            <div className="bookmark" onClick={() => markAnime(singleAnime)}>
               {alreadyExists ? <HiBookmark /> : <HiOutlineBookmark />}
             </div>
           </article>
@@ -154,7 +179,7 @@ const SingleManga = () => {
         {recomData && (
           <section>
             <h1>Recommended</h1>
-            <RecommendedManga id={mal_id} recomData={recomData} />
+            <RecommendedAnime id={mal_id} recomData={recomData} />
           </section>
         )}
       </main>
@@ -162,4 +187,4 @@ const SingleManga = () => {
   }
 };
 
-export default SingleManga;
+export default SingleAnime;

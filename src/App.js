@@ -7,6 +7,8 @@ import Error from "./pages/Error";
 import Bookmarks from "./pages/Bookmarks";
 import SideBar from "./components/SideBar";
 import SingleManga from "./components/SingleManga";
+import Anime from "./pages/Anime";
+import SingleAnime from "./components/SingleAnime";
 
 function App() {
   return (
@@ -16,9 +18,10 @@ function App() {
         <SideBar />
         <Routes>
           <Route exact path="/" element={<Bookmarks />}></Route>
-          {/* <Route path="/anime" element={<Anime />}></Route> */}
           <Route path="/manga" element={<Manga />}></Route>
           <Route path="manga/:id" element={<SingleManga />} />
+          <Route path="/anime" element={<Anime />}></Route>
+          <Route path="anime/:id" element={<SingleAnime />} />
           <Route path="*" element={<Error />} />
         </Routes>
       </Router>
