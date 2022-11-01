@@ -78,6 +78,9 @@ const Manga = () => {
       setIsSearching(true);
       setIsSubmitted(true);
       setPage(1);
+      setIsShowingSpecificGenre(false);
+      setSpecificGenreName("");
+      setSpecificGenre("");
     } else {
       setMangaUrl(`https://api.jikan.moe/v4/top/manga?page=1`);
       setIsSearching(false);
@@ -133,6 +136,7 @@ const Manga = () => {
               setPage(1);
               setIsShowingSpecificGenre(false);
               setSpecificGenreName("");
+              setSpecificGenre("");
             }}
           >
             back to home
@@ -172,7 +176,11 @@ const Manga = () => {
       {!data && !loading && <div>NOT FOUND</div>}
 
       {data && !loading && (
-        <AllManga data={data.data} genreName={specificGenreName} />
+        <AllManga
+          data={data.data}
+          genreName={specificGenreName}
+          isSearching={isSearching}
+        />
       )}
       {/* {data && !loading && showMore && (
         <SingleManga

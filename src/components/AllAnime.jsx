@@ -4,14 +4,16 @@ import { Link } from "react-router-dom";
 import { useGlobalContext } from "../Context";
 // import { useFetch } from "../useFetch";
 
-const AllAnime = ({ data, genreName }) => {
+const AllAnime = ({ data, genreName, isSearching }) => {
   const { markAnime, animeBookMarks } = useGlobalContext();
 
   // const { detail } = useFetch("https://api.jikan.moe/v4/genres/manga");
   // console.log(detail);
   return (
     <article>
-      <h1 className="title">{genreName ? genreName : "TOP ANIME"}</h1>
+      <h1 className="title">
+        {genreName ? genreName : isSearching ? "RESULTS" : "TOP ANIME"}
+      </h1>
       <main className="manga-container">
         {data.map((anime) => {
           const {

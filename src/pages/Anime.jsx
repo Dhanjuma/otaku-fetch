@@ -25,13 +25,13 @@ const Anime = () => {
     `https://api.jikan.moe/v4/top/anime?page=${page}`
   );
 
-  console.log(genre);
+  // console.log(genre);
   React.useEffect(() => {
     fetch(`https://api.jikan.moe/v4/genres/anime`)
       .then((response) => response.json())
       .then((myJson) => setGenre(myJson.data));
   }, []);
-  console.log(animeUrl, lastPage, data);
+  // console.log(animeUrl, lastPage, data);
 
   const fetchAnime = React.useCallback(async () => {
     try {
@@ -56,7 +56,7 @@ const Anime = () => {
   React.useEffect(() => {
     if (!isSearching && !isShowingSpecificGenre) {
       setAnimeUrl(`https://api.jikan.moe/v4/top/anime?page=${page}`);
-    } else if (isSearching && isSubmitted && !isShowingSpecificGenre) {
+    } else if (isSearching && isSubmitted) {
       setAnimeUrl(`https://api.jikan.moe/v4/anime?q=${term}&page=${page}`);
     } else if (isShowingSpecificGenre) {
       setAnimeUrl(
@@ -78,6 +78,9 @@ const Anime = () => {
       setAnimeUrl(`https://api.jikan.moe/v4/anime?q=${term}&page=1`);
       setIsSearching(true);
       setIsSubmitted(true);
+      setIsShowingSpecificGenre(false);
+      setSpecificGenreName("");
+      setSpecificGenre("");
       setPage(1);
     } else {
       setAnimeUrl(`https://api.jikan.moe/v4/top/anime?page=1`);
@@ -134,6 +137,7 @@ const Anime = () => {
               setPage(1);
               setIsShowingSpecificGenre(false);
               setSpecificGenreName("");
+              setSpecificGenre("");
             }}
           >
             back to home
@@ -173,7 +177,11 @@ const Anime = () => {
       {!data && !loading && <div>NOT FOUND</div>}
 
       {data && !loading && (
-        <AllAnime data={data.data} genreName={specificGenreName} />
+        <AllAnime
+          data={data.data}
+          genreName={specificGenreName}
+          isSearching={isSearching}
+        />
       )}
       {/* {data && !loading && showMore && (
         <SingleManga
